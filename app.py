@@ -1,6 +1,6 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 import os
+from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
 from os import path
 if path.exists("env.py"):
     import env
@@ -14,11 +14,11 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
 
 # create the extension 
-db = SQLAlchemy()
+db = SQLAlchemy(app)
 
 # initialize the app with the extension
 db.init_app(app)
 
 @app.route("/")
 def homepage():
-    return "<h1>Homepage</h1>"
+    return render_template("homepage.html")
