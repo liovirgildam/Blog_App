@@ -25,8 +25,8 @@ def signup():
             else:
                 user = User(
                     name = request.form["name"],
-                    username=request.form["username"],
-                    email=request.form["email"],
+                    username = request.form["username"],
+                    email = request.form["email"],
                     password = bcrypt.generate_password_hash(request.form["password"]).decode('utf-8')
                 )
                 db.session.add(user)

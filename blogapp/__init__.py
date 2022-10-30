@@ -10,6 +10,8 @@ if path.exists("env.py"):
 # create the app
 app = Flask(__name__)
 
+csrf = CSRFProtect(app)
+
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") 
 
 # configure the SQLite database, relative to the app instance folder
