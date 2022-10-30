@@ -9,7 +9,7 @@ class User(db.Model):
     password = db.Column(db.String(40), nullable=False)
     profile_picture = db.Column(db.String, nullable=False, default='default.jpg')
     summary = db.Column(db.String)
-    posts = db.relationship('Peeps', backref='author', lazy=True)
+    posts = db.relationship('Post', backref='author', lazy=True)
 
     def __repr__(self):
         return f"User('{self.name}','{self.username}','{self.profile_picture}','{self.summary}')"

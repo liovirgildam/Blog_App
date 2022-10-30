@@ -3,23 +3,34 @@
 {% block content %}
     <h1>Sign up </h1>
     <form action="" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <label for="name">Name:</label>
-        <input type="text" name="name" id="name"><br>
+        <input type="text" name="name" id="name" required><br>
         <label for="username">Username:</label>
-        <input type="text" name="username" id="username"><br>
+        <input type="text" name="username" id="username" required><br>
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email"><br>
+        <input type="email" name="email" id="email" required><br>
         <label for="password">password:</label>
         <input type="password" name="password" id="password" onkeyup='check()'
-        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" ><br>
+        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required><br>
         <div id="passwordHelpBlock" class="form-text">
             Password must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters.
         </div>
         <label for="confPassword">Confirm password:</label>
         <input type="password" name="confPassword" id="confPassword" onkeyup='check()'
-        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
         <span id='message'></span><br>
         <input type="submit" placeholder="Sign Up">
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
     </form>
 
     <script>
@@ -32,5 +43,7 @@
                 document.getElementById('message').innerHTML = 'Passwords do not match';
             }
         }
+
+
     </script>
 {% endblock %}

@@ -1,6 +1,8 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_wtf.csrf import CSRFProtect
 from os import path
 if path.exists("env.py"):
     import env
@@ -15,6 +17,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
 
 # create the extension 
 db = SQLAlchemy(app)
+
+bcrypt = Bcrypt(app)
+
+csrf = CSRFProtect(app)
 
 # initialize the app with the extension
 db.init_app(app)
