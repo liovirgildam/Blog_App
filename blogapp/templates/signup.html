@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Sign up </h1>
+    <form action="" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name"><br>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username"><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email"><br>
+        <label for="password">password:</label>
+        <input type="password" name="password" id="password" onkeyup='check()' ><br>
+        <label for="confPassword">Confirm password:</label>
+        <input type="password" name="confPassword" id="confPassword"  onkeyup='check()'>
+        <span id='message'></span><br>
+        <input type="submit" placeholder="Sign Up">
+    </form>
+
+    <script>
+        const check = () => {
+            if (document.getElementById('password').value ==
+                document.getElementById('confPassword').value) {
+                    document.getElementById('message').innerHTML = '';  
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'Passwords do not match';
+            }
+        }
+    </script>
+{% endblock %}
