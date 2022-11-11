@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, session
 from blogapp import app, db, bcrypt
 from blogapp.models import User
 
@@ -10,10 +10,22 @@ def homepage():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    if request.method == "POST":
+        userPassword = db.session.execute(db.select(User.password).where(
+            User.email == request.form["email"])).scalar()
+        formPassword = request.form["password"]
+
+        if bcrypt.check_password_hash(userPassword, formPassword):
+            user = db.session.execute(db.select(User).where(
+                User.email == request.form["email"])).scalar()
+            session["username"] = user.username
+            return render_template("homepage.html", title="Homepage")
+        else:
+            flash("Email or password invalid, please try again.")
     return render_template("login.html", title="login")
 
 
-@app.route("/signup", methods=['GET', 'POST'])
+@ app.route("/signup", methods=['GET', 'POST'])
 def signup():
     if request.method == "POST":
         if request.form["password"] != request.form["confPassword"]:
@@ -38,5 +50,6 @@ def signup():
                     )
                     db.session.add(user)
                     db.session.commit()
+                    session[user] = user
                     return redirect(url_for('homepage', id=user.id))
     return render_template("signup.html", title="signup")
