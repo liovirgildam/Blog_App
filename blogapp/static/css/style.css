@@ -1,6 +1,6 @@
 /* Sign up page */
 
-.signup{
+.signup, .login{
     margin: 70px auto;
     width: 70%;
     padding: 25px;

@@ -1,6 +1,35 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <h1>Login </h1>
     
+    <div class="login container">
+        <h1>Login </h1>
+        <form action="" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" name="email" id="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">password:</label>
+                <input type="password" name="password" id="password" class="form-control" onkeyup='check()'
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="passwordHelp" required>
+            </div>
+            <div class="mb-3">
+                <span id="message"></span>
+                <button type="submit" class="btn btn-primary">Submit</button><br>
+            </div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flashes alert alert-danger" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+                </div>
+            {% endif %}
+            {% endwith %}
+        </form>
+    </div>
+</div>
+   
 {% endblock %}

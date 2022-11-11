@@ -3,7 +3,6 @@
 {% block content %}
 <div class="signup container">
     <h1>Sign up </h1>
-
     <form action="" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <div class="mb-3">
@@ -30,10 +29,6 @@
             <label for="confPassword" class="form-label">Confirm password:</label>
             <input type="password" name="confPassword" id="confPassword" onkeyup='check()'
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <span id="message"></span>
-            <button type="submit" class="btn btn-primary">Submit</button><br>
         </div>
         
         {% with messages = get_flashed_messages() %}
