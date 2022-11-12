@@ -25,7 +25,7 @@
                   </li>
                   {% if session["username"] %}
                   <li class="nav-item">
-                    <a class="nav-link">Account</a>
+                    <a class="nav-link" href={{url_for('account')}}>Account</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href={{url_for('logout')}}>Logout</a>

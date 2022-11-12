@@ -1,6 +1,8 @@
-from flask import render_template, request, redirect, url_for, flash, session
+from flask import render_template, request, redirect, url_for, flash, session, abort
 from blogapp import app, db, bcrypt
 from blogapp.models import User
+from werkzeug.utils import secure_filename
+import os
 
 
 @app.route("/")
@@ -18,7 +20,10 @@ def login():
         if bcrypt.check_password_hash(userPassword, formPassword):
             username = db.session.execute(db.select(User.username).where(
                 User.email == request.form["email"])).scalar()
+            id = db.session.execute(db.select(User.id).where(
+                User.email == request.form["email"])).scalar()
             session["username"] = username
+            session["user_id"] = id
             return render_template("homepage.html", title="Homepage")
         else:
             flash("Email or password invalid, please try again.")
@@ -50,7 +55,8 @@ def signup():
                     )
                     db.session.add(user)
                     db.session.commit()
-                    session[user] = user
+                    session["username"] = request.form["username"]
+                    session["user_id"] = user.id
                     return redirect(url_for('homepage', id=user.id))
     return render_template("signup.html", title="signup")
 
@@ -59,3 +65,19 @@ def signup():
 def logout():
     session.pop('username', None)
     return redirect(url_for('homepage'))
+
+
+@app.route("/account")
+def account():
+    return render_template("account.html")
+
+
+@app.route("/upload_file", methods=['GET', 'POST'])
+def upload_file():
+    if request.method == "POST":
+        profile_pic = request.files['profile_picture']
+        filename = secure_filename(profile_pic.filename)
+    if filename != '':
+        profile_pic.save(os.path.join("blogapp/static/uploads", filename))
+        return redirect(url_for('account'))
+    return render_template("account.html")

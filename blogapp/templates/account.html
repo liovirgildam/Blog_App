@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1 class="p-4">{{session["username"]}}'s account page</h1>
+<div class="account container">
+    <div class="row">
+        <div class="col-sm-4">
+            <form method="POST" action="/upload_file" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="mb-3">
+                    <input name="profile_picture" type="file" accept="image/png, image/jpeg" enctype = "multipart/form-data">
+                </div>
+                <div class="mb-3">
+                    <span id="message"></span>
+                    <button type="submit" class="btn btn-primary">Submit</button><br>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

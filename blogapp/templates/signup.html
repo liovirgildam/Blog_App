@@ -3,6 +3,7 @@
 {% block content %}
 <div class="signup container">
     <h1>Sign up </h1>
+    <br>
     <form action="" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <div class="mb-3">
@@ -18,7 +19,7 @@
             <input type="email" name="email" id="email" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">password:</label>
+            <label for="password" class="form-label">Password</label>
             <input type="password" name="password" id="password" class="form-control" onkeyup='check()'
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="passwordHelp" required>
             <div id="passwordHelp" class="form-text">
@@ -26,13 +27,18 @@
             </div>
         </div>
         <div class="mb-3">
-            <label for="confPassword" class="form-label">Confirm password:</label>
+            <label for="confPassword" class="form-label">Confirm password</label>
             <input type="password" name="confPassword" id="confPassword" onkeyup='check()'
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" class="form-control" required>
         </div>
         <div class="mb-3">
             <span id="message"></span>
             <button type="submit" class="btn btn-primary">Submit</button><br>
+        </div>
+        <hr>
+        <div class="mb-3 ">
+            Already have an account?
+            <a href={{url_for('login')}} >Login</a>
         </div>
         {% with messages = get_flashed_messages() %}
         {% if messages %}

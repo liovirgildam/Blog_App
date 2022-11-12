@@ -4,6 +4,7 @@
     
     <div class="login container">
         <h1>Login </h1>
+        <br>
         <form action="" method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="mb-3">
@@ -11,13 +12,16 @@
                 <input type="email" name="email" id="email" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">password:</label>
+                <label for="password" class="form-label">Password</label>
                 <input type="password" name="password" id="password" class="form-control" onkeyup='check()'
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="passwordHelp" required>
             </div>
-            <div class="mb-3">
-                <span id="message"></span>
+            <div class="mb-3 ">
                 <button type="submit" class="btn btn-primary">Submit</button><br>
+            </div>
+            <hr>
+            <div class="mb-3 ">
+                Don't have an account? <a href={{url_for('signup')}}>Sign Up</a>
             </div>
             {% with messages = get_flashed_messages() %}
             {% if messages %}
