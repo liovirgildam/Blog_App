@@ -11,7 +11,7 @@
 /* Media-queries */
 
 @media only screen and (min-width: 767px) {
-    .signup{
+    .signup, .login{
       width: 50%;
     }
   }
