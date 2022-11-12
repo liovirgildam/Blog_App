@@ -16,16 +16,16 @@ def login():
         formPassword = request.form["password"]
 
         if bcrypt.check_password_hash(userPassword, formPassword):
-            user = db.session.execute(db.select(User).where(
+            username = db.session.execute(db.select(User.username).where(
                 User.email == request.form["email"])).scalar()
-            session["username"] = user.username
+            session["username"] = username
             return render_template("homepage.html", title="Homepage")
         else:
             flash("Email or password invalid, please try again.")
     return render_template("login.html", title="login")
 
 
-@ app.route("/signup", methods=['GET', 'POST'])
+@app.route("/signup", methods=['GET', 'POST'])
 def signup():
     if request.method == "POST":
         if request.form["password"] != request.form["confPassword"]:
@@ -53,3 +53,9 @@ def signup():
                     session[user] = user
                     return redirect(url_for('homepage', id=user.id))
     return render_template("signup.html", title="signup")
+
+
+@app.route("/logout")
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('homepage'))
