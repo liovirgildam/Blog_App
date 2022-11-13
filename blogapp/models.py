@@ -7,7 +7,7 @@ class User(db.Model):
     username = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String(40), nullable=False)
-    profile_picture = db.Column(db.String, nullable=False, default='default.jpg')
+    profile_picture = db.Column(db.String, nullable=False, default='default.jpeg')
     summary = db.Column(db.String)
     posts = db.relationship('Post', backref='author', lazy=True)
 

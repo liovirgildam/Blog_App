@@ -56,6 +56,7 @@ def signup():
                     db.session.add(user)
                     db.session.commit()
                     session["username"] = request.form["username"]
+                    session["user_picture"] = "default.jpeg"
                     session["user_id"] = user.id
                     return redirect(url_for('homepage', id=user.id))
     return render_template("signup.html", title="signup")
@@ -78,6 +79,6 @@ def upload_file():
         profile_pic = request.files['profile_picture']
         filename = secure_filename(profile_pic.filename)
     if filename != '':
-        profile_pic.save(os.path.join("blogapp/static/uploads", filename))
+        profile_pic.save(os.path.join(app.config["UPLOAD_PATH"], filename))
         return redirect(url_for('account'))
     return render_template("account.html")

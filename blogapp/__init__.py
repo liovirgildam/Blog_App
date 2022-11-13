@@ -25,7 +25,7 @@ app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png']
 
 # upload pictures
-app.config['UPLOAD_PATH'] = 'static/uploads'
+app.config['UPLOAD_PATH'] = 'blogapp/static/uploads'
 
 # create the extension
 db = SQLAlchemy(app)
