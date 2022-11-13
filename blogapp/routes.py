@@ -22,8 +22,12 @@ def login():
                 User.email == request.form["email"])).scalar()
             id = db.session.execute(db.select(User.id).where(
                 User.email == request.form["email"])).scalar()
+            profile_picture = db.session.execute(db.select(User.profile_picture).where(
+                User.email == request.form["email"])).scalar()
+                   
             session["username"] = username
             session["user_id"] = id
+            session["profile_picture"] = profile_picture
             return render_template("homepage.html", title="Homepage")
         else:
             flash("Email or password invalid, please try again.")
@@ -80,5 +84,9 @@ def upload_file():
         filename = secure_filename(profile_pic.filename)
     if filename != '':
         profile_pic.save(os.path.join(app.config["UPLOAD_PATH"], filename))
+        db.session.execute(db.update(User).values(profile_picture = filename).where(
+            User.username == session["username"]))
+        db.session.commit()
+        session["user_picture"] = filename
         return redirect(url_for('account'))
     return render_template("account.html")
