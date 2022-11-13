@@ -1,12 +1,14 @@
 {% extends 'layout.html' %}
 {% block content %}
-<h1 class="p-4">{{session["username"]}}'s account page</h1>
+
 <div class="account container">
+    <h2 class="p-4">Edit Profile</h2>
+    <hr>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <form method="POST" action="/upload_file" enctype="multipart/form-data">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <div class="mb-3">
+                <div class="my-3">
                     <img class="account_picture" src="../static/uploads/{{session['user_picture']}}" alt="Profile Picture">
                 </div>
                 <div class="mb-3">
@@ -21,7 +23,21 @@
                 </div>
             </form>
         </div>
-
+        <div class="col-sm-6 py-5">
+            <form action="" method="POST">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" name="name" id="name" class="form-control" placeholder={{session["name"]}}>
+                </div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" placeholder={{session["username"]}}>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Update</button><br>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

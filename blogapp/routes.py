@@ -18,16 +18,13 @@ def login():
         formPassword = request.form["password"]
 
         if bcrypt.check_password_hash(userPassword, formPassword):
-            username = db.session.execute(db.select(User.username).where(
+            user = db.session.execute(db.select(User).where(
                 User.email == request.form["email"])).scalar()
-            id = db.session.execute(db.select(User.id).where(
-                User.email == request.form["email"])).scalar()
-            profile_picture = db.session.execute(db.select(User.profile_picture).where(
-                User.email == request.form["email"])).scalar()
-                   
-            session["username"] = username
-            session["user_id"] = id
-            session["profile_picture"] = profile_picture
+
+            session["name"] = user.name  
+            session["username"] = user.username
+            session["user_id"] = user.id
+            session["profile_picture"] = user.profile_picture
             return render_template("homepage.html", title="Homepage")
         else:
             flash("Email or password invalid, please try again.")
@@ -59,8 +56,9 @@ def signup():
                     )
                     db.session.add(user)
                     db.session.commit()
-                    session["username"] = request.form["username"]
-                    session["user_picture"] = "default.jpeg"
+                    session["name"] = user.name
+                    session["username"] = user.username
+                    session["user_picture"] = user.profile_picture
                     session["user_id"] = user.id
                     return redirect(url_for('homepage', id=user.id))
     return render_template("signup.html", title="signup")

@@ -1,6 +1,6 @@
 /* Sign up page */
 
-.signup, .login{
+.signup, .login, .account{
     margin: 70px auto;
     width: 70%;
     padding: 25px;
@@ -8,9 +8,13 @@
     border-radius: 10px;
 }
 
+.account{
+  width: 50%;
+}
+
 .account_picture{
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
 }
 
