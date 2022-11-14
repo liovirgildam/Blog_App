@@ -9,7 +9,7 @@
             <form method="POST" action="/upload_file" enctype="multipart/form-data">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="my-3">
-                    <img class="account_picture" src="../static/uploads/{{session['user_picture']}}" alt="Profile Picture">
+                    <img class="account_picture" src="../static/uploads/{{session['profile_picture']}}" alt="Profile Picture">
                 </div>
                 <div class="mb-3">
                     <input name="profile_picture" type="file" accept="image/png, image/jpeg" aria-describedby="picturedHelp" required>

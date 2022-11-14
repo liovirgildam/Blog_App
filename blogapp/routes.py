@@ -58,7 +58,7 @@ def signup():
                     db.session.commit()
                     session["name"] = user.name
                     session["username"] = user.username
-                    session["user_picture"] = user.profile_picture
+                    session["profile_picture"] = user.profile_picture
                     session["user_id"] = user.id
                     return redirect(url_for('homepage', id=user.id))
     return render_template("signup.html", title="signup")
@@ -67,6 +67,9 @@ def signup():
 @app.route("/logout")
 def logout():
     session.pop('username', None)
+    session.pop('name', None)
+    session.pop('profile_picture', None)
+    session.pop('user_id', None)
     return redirect(url_for('homepage'))
 
 
@@ -80,12 +83,14 @@ def upload_file():
     if request.method == "POST":
         profile_pic = request.files['profile_picture']
         filename = secure_filename(profile_pic.filename)
+        if session["profile_picture"] != "default.jpeg":
+            os.remove(f"blogapp/static/uploads/{session['profile_picture']}")
     if filename != '':
         profile_pic.save(os.path.join(app.config["UPLOAD_PATH"], filename))
         db.session.execute(db.update(User).values(profile_picture = filename).where(
             User.id == session["user_id"]))
         db.session.commit()
-        session["user_picture"] = filename
+        session["profile_picture"] = filename
         return redirect(url_for('account'))
     return render_template("account.html")
 
