@@ -34,8 +34,7 @@ def login():
                     User.email == request.form["email"])).scalar()
                 set_session(user)
                 return  redirect(url_for('homepage'))
-        else:
-            flash("Email or password invalid, please try again.")
+        flash("Email or password invalid, please try again.")
     return render_template("login.html", title="login")
 
 
