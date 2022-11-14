@@ -1,3 +1,4 @@
+from PIL import Image
 from flask import render_template, request, redirect, url_for, flash, session, abort
 from blogapp import app, db, bcrypt
 from blogapp.models import User
@@ -88,7 +89,10 @@ def upload_file():
     if filename != '':
         file_ext = os.path.splitext(filename)[1]
         new_filename = str(session["user_id"])+ file_ext
-        profile_pic.save(os.path.join(app.config["UPLOAD_PATH"], new_filename))
+        output_size = (200, 200)
+        profile = Image.open(profile_pic)
+        profile.thumbnail(output_size)
+        profile.save(os.path.join(app.config["UPLOAD_PATH"], new_filename))
         db.session.execute(db.update(User).values(profile_picture = new_filename).where(
             User.id == session["user_id"]))
         db.session.commit()
