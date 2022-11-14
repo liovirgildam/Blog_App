@@ -86,11 +86,13 @@ def upload_file():
         if session["profile_picture"] != "default.jpeg":
             os.remove(f"blogapp/static/uploads/{session['profile_picture']}")
     if filename != '':
-        profile_pic.save(os.path.join(app.config["UPLOAD_PATH"], filename))
-        db.session.execute(db.update(User).values(profile_picture = filename).where(
+        file_ext = os.path.splitext(filename)[1]
+        new_filename = str(session["user_id"])+ file_ext
+        profile_pic.save(os.path.join(app.config["UPLOAD_PATH"], new_filename))
+        db.session.execute(db.update(User).values(profile_picture = new_filename).where(
             User.id == session["user_id"]))
         db.session.commit()
-        session["profile_picture"] = filename
+        session["profile_picture"] = new_filename
         return redirect(url_for('account'))
     return render_template("account.html")
 
