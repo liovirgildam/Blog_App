@@ -1,10 +1,18 @@
-from PIL import Image
-from flask import render_template, request, redirect, url_for, flash, session, abort
-from blogapp import app, db, bcrypt
-from blogapp.models import User
-from werkzeug.utils import secure_filename
 import os
+from flask import (flash, redirect, render_template, request, session, url_for)
+from PIL import Image
+from werkzeug.utils import secure_filename
 
+from blogapp import app, bcrypt, db
+from blogapp.models import User
+
+
+def set_session(user_details):
+    session["user_id"] = user_details.id
+    session["name"] = user_details.name  
+    session["username"] = user_details.username
+    session["profile_picture"] = user_details.profile_picture
+    return None
 
 @app.route("/")
 def homepage():
@@ -14,19 +22,18 @@ def homepage():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
-        userPassword = db.session.execute(db.select(User.password).where(
+        userExists =  db.session.execute(db.select(User).where(
             User.email == request.form["email"])).scalar()
-        formPassword = request.form["password"]
-
-        if bcrypt.check_password_hash(userPassword, formPassword):
-            user = db.session.execute(db.select(User).where(
+        if userExists:
+            userPassword = db.session.execute(db.select(User.password).where(
                 User.email == request.form["email"])).scalar()
+            formPassword = request.form["password"]
 
-            session["name"] = user.name  
-            session["username"] = user.username
-            session["user_id"] = user.id
-            session["profile_picture"] = user.profile_picture
-            return render_template("homepage.html", title="Homepage")
+            if bcrypt.check_password_hash(userPassword, formPassword):
+                user = db.session.execute(db.select(User).where(
+                    User.email == request.form["email"])).scalar()
+                set_session(user)
+                return  redirect(url_for('homepage'))
         else:
             flash("Email or password invalid, please try again.")
     return render_template("login.html", title="login")
@@ -57,27 +64,23 @@ def signup():
                     )
                     db.session.add(user)
                     db.session.commit()
-                    session["name"] = user.name
-                    session["username"] = user.username
-                    session["profile_picture"] = user.profile_picture
-                    session["user_id"] = user.id
-                    return redirect(url_for('homepage', id=user.id))
+                    set_session(user)
+                    return redirect(url_for('homepage'))
     return render_template("signup.html", title="signup")
 
 
 @app.route("/logout")
 def logout():
-    session.pop('username', None)
-    session.pop('name', None)
-    session.pop('profile_picture', None)
     session.pop('user_id', None)
+    session.pop('name', None)
+    session.pop('username', None)
+    session.pop('profile_picture', None)
     return redirect(url_for('homepage'))
 
 
 @app.route("/account")
 def account():
     return render_template("account.html")
-
 
 @app.route("/upload_file", methods=['GET', 'POST'])
 def upload_file():
@@ -86,7 +89,6 @@ def upload_file():
         filename = secure_filename(profile_pic.filename)
         if session["profile_picture"] != "default.jpeg":
             os.remove(f"blogapp/static/uploads/{session['profile_picture']}")
-    if filename != '':
         file_ext = os.path.splitext(filename)[1]
         new_filename = str(session["user_id"])+ file_ext
         output_size = (200, 200)
@@ -99,6 +101,7 @@ def upload_file():
         session["profile_picture"] = new_filename
         return redirect(url_for('account'))
     return render_template("account.html")
+    
 
 @app.route("/update", methods=['GET','POST'])
 def update_details():
@@ -123,3 +126,4 @@ def update_details():
                 session["username"] = request.form["username"]
         return redirect(url_for('account'))
     return render_template("account.html")
+    

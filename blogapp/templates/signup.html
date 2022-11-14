@@ -1,67 +1,71 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="signup container">
-    <h1>Sign up </h1>
-    <br>
-    <form action="" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" name="name" id="name" class="form-control"required>
-        </div>
-        <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" name="username" id="username" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" name="email" id="email" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" name="password" id="password" class="form-control" onkeyup='check()'
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="passwordHelp" required>
-            <div id="passwordHelp" class="form-text">
-                Password must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters.
+    {% if session["username"] %}
+        <div class="text-center m-3 alert alert-danger" role="alert">You are already logged in. <a href="/"> <strong>Go to homepage</strong> </a></div>
+    {% else %}
+    <div class="signup container">
+        <h1>Sign up </h1>
+        <br>
+        <form action="" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" name="name" id="name" class="form-control"required>
             </div>
-        </div>
-        <div class="mb-3">
-            <label for="confPassword" class="form-label">Confirm password</label>
-            <input type="password" name="confPassword" id="confPassword" onkeyup='check()'
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <span id="message"></span>
-            <button type="submit" class="btn btn-primary">Submit</button><br>
-        </div>
-        <hr>
-        <div class="mb-3 ">
-            Already have an account?
-            <a href={{url_for('login')}} >Login</a>
-        </div>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="flashes alert alert-danger" role="alert">
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" name="username" id="username" class="form-control" required>
             </div>
-        {% endif %}
-        {% endwith %}
-    </form>
-</div>
-    <script>
-        const check = () => {
-            if (document.getElementById('password').value ==
-                document.getElementById('confPassword').value) {
-                    document.getElementById('message').innerHTML = '';  
-            } else {
-                document.getElementById('message').style.color = 'red';
-                document.getElementById('message').innerHTML = 'Passwords do not match';
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" name="email" id="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" id="password" class="form-control" onkeyup='check()'
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="passwordHelp" required>
+                <div id="passwordHelp" class="form-text">
+                    Password must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="confPassword" class="form-label">Confirm password</label>
+                <input type="password" name="confPassword" id="confPassword" onkeyup='check()'
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <span id="message"></span>
+                <button type="submit" class="btn btn-primary">Submit</button><br>
+            </div>
+            <hr>
+            <div class="mb-3 ">
+                Already have an account?
+                <a href={{url_for('login')}} >Login</a>
+            </div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flashes alert alert-danger" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+                </div>
+            {% endif %}
+            {% endwith %}
+        </form>
+    </div>
+        <script>
+            const check = () => {
+                if (document.getElementById('password').value ==
+                    document.getElementById('confPassword').value) {
+                        document.getElementById('message').innerHTML = '';  
+                } else {
+                    document.getElementById('message').style.color = 'red';
+                    document.getElementById('message').innerHTML = 'Passwords do not match';
+                }
             }
-        }
 
 
-    </script>
+        </script>
+    {% endif %}
 {% endblock %}

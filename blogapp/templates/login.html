@@ -1,7 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    
+    {% if session["username"] %} 
+        <div class="text-center m-3 alert alert-danger" role="alert">You are already logged in.  <a href="/"> <strong>Go to homepage</strong> </a></div>
+    {% else %}
     <div class="login container">
         <h1>Login </h1>
         <br>
@@ -13,7 +15,7 @@
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" name="password" id="password" class="form-control" onkeyup='check()'
+                <input type="password" name="password" id="password" class="form-control"
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="passwordHelp" required>
             </div>
             <div class="mb-3 ">
@@ -35,5 +37,6 @@
         </form>
     </div>
 </div>
-   
+{% endif %}
+
 {% endblock %}

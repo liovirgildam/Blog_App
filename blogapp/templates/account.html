@@ -1,53 +1,54 @@
 {% extends 'layout.html' %}
 {% block content %}
-
-<div class="account container">
-    <h2 class="p-4">Edit Profile</h2>
-    <hr>
-    <div class="row">
-        <div class="col-sm-6">
-            <form method="POST" action="/upload_file" enctype="multipart/form-data">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <div class="my-3">
-                    <img class="account_picture" src="../static/uploads/{{session['profile_picture']}}" alt="Profile Picture">
-                </div>
-                <div class="mb-3">
-                    <input name="profile_picture" type="file" accept="image/png, image/jpeg" aria-describedby="picturedHelp" required>
-                </div>
-                <div id="pictureHelp" class="form-text mb-3">
-                    Accepts image up to 1MB in size.
-                </div>
-                <div class="mb-3">
-                    <span id="message"></span>
-                    <button type="submit" class="btn btn-primary">Update picture</button><br>
-                </div>
-            </form>
-        </div>
-        <div class="col-sm-6 py-5">
-            <form action="/update" method="POST">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" name="name" id="name" class="form-control" placeholder="{{session['name']}}">
-                </div>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" name="username" id="username" class="form-control" placeholder="{{session['username']}}">
-                </div>
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Update</button><br>
-                </div>
-            </form>
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="flashes alert alert-danger" role="alert">
-                {% for message in messages %}
-                    {{ message }}
-                {% endfor %}
-                </div>
-            {% endif %}
-            {% endwith %}
+    {% if session["username"] %}
+    <div class="account container">
+        <h2 class="p-4">Edit Profile</h2>
+        <hr>
+        <div class="row">
+            <div class="col-sm-6">
+                <form method="POST" action="/upload_file" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="my-3">
+                        <img class="account_picture" src="../static/uploads/{{session['profile_picture']}}" alt="Profile Picture">
+                    </div>
+                    <div class="mb-3">
+                        <input name="profile_picture" type="file" accept="image/png, image/jpeg" required>
+                    </div>
+                    <div class="mb-3">
+                        <span id="message"></span>
+                        <button type="submit" class="btn btn-primary">Update picture</button><br>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-6 py-5">
+                <form action="/update" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" name="name" id="name" class="form-control" placeholder="{{session['name']}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" name="username" id="username" class="form-control" placeholder="{{session['username']}}">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Update</button><br>
+                    </div>
+                </form>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="flashes alert alert-danger" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    </div>
+                {% endif %}
+                {% endwith %}
+            </div>
         </div>
     </div>
-</div>
+
+    {% else %}
+        <div class="text-center m-3 alert alert-danger" role="alert">Please <a href="/login"> <strong> login</strong> </a>or <a href="/signup"> <strong>sign up</strong> </a> first.</div>
+    {% endif %}
 {% endblock %}
