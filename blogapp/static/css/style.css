@@ -1,11 +1,14 @@
 /* Sign up page */
 
-.signup, .login, .account{
+.signup, .login, .account, .homepage, .posts{
     margin: 70px auto;
     width: 70%;
     padding: 25px;
     border: 1px solid #ced4da;
     border-radius: 10px;
+}
+.posts{
+  margin: 10px auto;
 }
 
 .account{
@@ -21,7 +24,7 @@
 /* Media-queries */
 
 @media only screen and (min-width: 767px) {
-    .signup, .login{
+    .signup, .login, .homepage, .posts{
       width: 50%;
     }
   }

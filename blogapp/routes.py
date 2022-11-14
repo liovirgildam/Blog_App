@@ -4,7 +4,7 @@ from PIL import Image
 from werkzeug.utils import secure_filename
 
 from blogapp import app, bcrypt, db
-from blogapp.models import User
+from blogapp.models import User, Post
 
 
 def set_session(user_details):
@@ -16,7 +16,9 @@ def set_session(user_details):
 
 @app.route("/")
 def homepage():
-    return render_template("homepage.html", title="Blog Homepage")
+    posts = db.session.execute(db.select(Post).where(
+            User.id == session["user_id"])).scalars()
+    return render_template("homepage.html", title="Blog Homepage", posts = posts)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -126,3 +128,15 @@ def update_details():
         return redirect(url_for('account'))
     return render_template("account.html")
     
+@app.route("/post", methods=['GET', 'POST'])
+def post():
+    if request.method == "POST":
+        post = Post(
+            title = request.form["title"],
+            text = request.form["post"],
+            user_id = session["user_id"]
+        )
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('homepage'))
+    return render_template("homepage.html", title="Homepage")
