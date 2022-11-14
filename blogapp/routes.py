@@ -88,3 +88,17 @@ def upload_file():
         session["user_picture"] = filename
         return redirect(url_for('account'))
     return render_template("account.html")
+
+@app.route("/update", methods=['GET','POST'])
+def update_details():
+    if request.method == "POST":
+        if request.form["name"] == '' and request.form["username"] == '':
+            flash("Name and username fields can not be empty")
+            return redirect(url_for('account'))
+        elif request.form["username"] == '':
+            db.session.execute(db.update(User).values(name = request.form["name"]).where(
+            User.username == session["username"]))
+            db.session.commit()
+            session["name"] = request.form["name"]
+        return redirect(url_for('account'))
+    return render_template("account.html")
