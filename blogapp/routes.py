@@ -38,9 +38,9 @@ def signup():
             flash("Passwords don't match")
         else:
             usernameExist = db.session.execute(db.select(User).where(
-                User.username == request.form["username"])).scalar()
+                User.username == request.form["username"].lower())).scalar()
             if usernameExist:
-                flash("Username already exists")
+                flash("Username not available")
             else:
                 emailExist = db.session.execute(db.select(User).where(
                     User.email == request.form["email"])).scalar()
@@ -49,7 +49,7 @@ def signup():
                 else:
                     user = User(
                         name=request.form["name"],
-                        username=request.form["username"],
+                        username=request.form["username"].lower(),
                         email=request.form["email"],
                         password=bcrypt.generate_password_hash(
                             request.form["password"]).decode('utf-8')
@@ -83,7 +83,7 @@ def upload_file():
     if filename != '':
         profile_pic.save(os.path.join(app.config["UPLOAD_PATH"], filename))
         db.session.execute(db.update(User).values(profile_picture = filename).where(
-            User.username == session["username"]))
+            User.id == session["user_id"]))
         db.session.commit()
         session["user_picture"] = filename
         return redirect(url_for('account'))
@@ -93,12 +93,22 @@ def upload_file():
 def update_details():
     if request.method == "POST":
         if request.form["name"] == '' and request.form["username"] == '':
-            flash("Name and username fields can not be empty")
+            flash("Please provide name/username")
             return redirect(url_for('account'))
         elif request.form["username"] == '':
             db.session.execute(db.update(User).values(name = request.form["name"]).where(
-            User.username == session["username"]))
+            User.id == session["user_id"]))
             db.session.commit()
             session["name"] = request.form["name"]
+        else:
+            usernameExist = db.session.execute(db.select(User).where(
+                User.username == request.form["username"].lower())).scalar()
+            if usernameExist:
+                flash("Username not available")
+            else:
+                db.session.execute(db.update(User).values(username = request.form["username"].lower()).where(
+                    User.id == session["user_id"]))
+                db.session.commit()
+                session["username"] = request.form["username"]
         return redirect(url_for('account'))
     return render_template("account.html")
