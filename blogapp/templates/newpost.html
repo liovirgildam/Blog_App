@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="container homepage my-5">
+    <div class="post-form">
+            <form action="/post" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" name="title" id="title" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="post" class="form-label">Post</label>
+                    <textarea name="post" id="post" class="form-control" rows="4" cols="50" required></textarea>
+                </div>
+                <div class="mb-3 ">
+                    <button type="submit" class="btn btn-primary">Submit</button><br>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,14 +1,20 @@
-/* Sign up page */
-
+body{
+  background-color: #fafcfd;
+}
 .signup, .login, .account, .homepage, .posts{
-    margin: 70px auto;
+    margin: 50px auto;
     width: 70%;
     padding: 25px;
     border: 1px solid #ced4da;
     border-radius: 10px;
+    background-color: #ffffff;
 }
+.navbar-brand{
+
+}
+
 .posts{
-  margin: 10px auto;
+  margin: 20px auto;
 }
 
 .account{
@@ -16,8 +22,8 @@
 }
 
 .account_picture{
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
 }
 

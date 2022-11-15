@@ -144,3 +144,7 @@ def post():
         db.session.commit()
         return redirect(url_for('homepage'))
     return render_template("homepage.html", title="Homepage")
+
+@app.route("/newpost")
+def newpost():
+    return render_template("newpost.html", title="New post")
