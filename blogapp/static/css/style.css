@@ -21,6 +21,21 @@
     border-radius: 50%;
 }
 
+.picture_post{
+  width:75px;
+  height:75px;
+  border-radius: 50%;
+}
+.post-author{
+  font-size: 1.2em;
+  padding-right: 10px;
+  text-decoration: none;
+}
+.post-title{
+  text-decoration: none;
+  color: #000;
+}
+
 /* Media-queries */
 
 @media only screen and (min-width: 767px) {

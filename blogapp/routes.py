@@ -16,10 +16,14 @@ def set_session(user_details):
 
 @app.route("/")
 def homepage():
-    posts = db.session.execute(db.select(Post).where(
-            User.id == session["user_id"])).scalars()
+    posts = db.session.execute(db.select(Post).order_by(Post.postedOn.desc())).scalars()
     return render_template("homepage.html", title="Blog Homepage", posts = posts)
 
+@app.route("/<int:id>")
+def user_posts(id):
+    posts = db.session.execute(db.select(Post).where(
+            Post.user_id == id).order_by(Post.postedOn.desc())).scalars()
+    return render_template("posts.html", title="Blog Homepage", posts = posts)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -134,7 +138,7 @@ def post():
         post = Post(
             title = request.form["title"],
             text = request.form["post"],
-            user_id = session["user_id"]
+            user_id = session["user_id"],
         )
         db.session.add(post)
         db.session.commit()

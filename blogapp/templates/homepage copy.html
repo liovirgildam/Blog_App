@@ -27,12 +27,12 @@
             <div class="container posts">
                 <div>
                     <img class="picture_post" src="../static/uploads/{{post.author.profile_picture}}" alt="Profile Picture">
-                    <a class="post-author mx-2" href="/{{post.user_id}}">{{ post.author.name }}</a> 
+                    <a class="post-author mx-2" href="#">{{ post.author.name }}</a> 
                     <small class="text-muted">{{ post.postedOn.strftime("%Y-%m-%d") }}</small> 
                 </div> 
                 <hr>
                 <div class="post-text">
-                    <h2><a class="post-title" href="#">{{ post.title }}</a></h2>
+                    <h2><a class="post-title" href="/{post.user_id}">{{ post.title }}</a></h2>
                     <p class="post-content">{{ post.text }}</p>
                 </div>
             </div>
