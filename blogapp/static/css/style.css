@@ -10,7 +10,19 @@ body{
     background-color: #ffffff;
 }
 .navbar-brand{
-
+  font-family: 'Rubik Distressed', cursive;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+.bg-layout{
+  background-color: #000;
+}
+.footer-items, .footer-items a, a.nav-link{
+  color: #f2f2f2;
+  text-decoration: none;
+}
+.footer-items a:hover, a.nav-link:hover{
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .posts{
@@ -22,8 +34,8 @@ body{
 }
 
 .account_picture{
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
 }
 

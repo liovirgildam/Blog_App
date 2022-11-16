@@ -1,9 +1,10 @@
 {% extends 'layout.html' %}
-
 {% block content %}
-    {% if session["username"] %}
-        <div class="text-center m-3 alert alert-danger" role="alert">You are already logged in. <a href="/"> <strong>Go to homepage</strong> </a></div>
-    {% else %}
+{% if session["username"] %}
+    <div class="text-center m-3 alert alert-danger" role="alert">
+        You are already logged in. <a href="/"> <strong>Go to homepage</strong></a>
+    </div>
+{% else %}
     <div class="signup container">
         <h1>Sign up </h1>
         <br>
@@ -54,18 +55,16 @@
             {% endwith %}
         </form>
     </div>
-        <script>
-            const check = () => {
-                if (document.getElementById('password').value ==
-                    document.getElementById('confPassword').value) {
-                        document.getElementById('message').innerHTML = '';  
-                } else {
-                    document.getElementById('message').style.color = 'red';
-                    document.getElementById('message').innerHTML = 'Passwords do not match';
-                }
+    <script>
+        const check = () => {
+            if (document.getElementById('password').value ==
+                document.getElementById('confPassword').value) {
+                    document.getElementById('message').innerHTML = '';  
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'Passwords do not match';
             }
-
-
-        </script>
+        }
+    </script>
     {% endif %}
 {% endblock %}

@@ -1,9 +1,11 @@
 {% extends 'layout.html' %}
-
 {% block content %}
-    {% if session["username"] %} 
-        <div class="text-center m-3 alert alert-danger" role="alert">You are already logged in.  <a href="/"> <strong>Go to homepage</strong> </a></div>
-    {% else %}
+{% if session["username"] %} 
+     <div class="text-center m-3 alert alert-danger" role="alert">
+        You are already logged in.
+        <a href="/"><strong>Go to homepage</strong></a>
+    </div>
+{% else %}
     <div class="login container">
         <h1>Login </h1>
         <br>
@@ -36,7 +38,5 @@
             {% endwith %}
         </form>
     </div>
-</div>
 {% endif %}
-
 {% endblock %}
