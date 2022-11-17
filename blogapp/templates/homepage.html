@@ -1,5 +1,14 @@
 {% extends 'layout.html' %}
 {% block content %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="flashes alert alert-danger" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
 {% if posts %}
     {% for post in posts %}
     <div class="container posts">
@@ -14,7 +23,7 @@
                 </div> 
                 <hr>
                 <div class="post-text">
-                    <h2><a class="post-title" href="#">{{ post.title }}</a></h2>
+                    <h2><a class="post-title" href="/post/{{post.id}}">{{ post.title }}</a></h2>
                     <p class="post-content">{{ post.text }}</p>
                 </div>
             </div>

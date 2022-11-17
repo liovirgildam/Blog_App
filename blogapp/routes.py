@@ -148,3 +148,16 @@ def post():
 @app.route("/newpost")
 def newpost():
     return render_template("newpost.html", title="New post")
+
+@app.route("/post/<int:id>")
+def singlepost(id):
+    post = db.session.execute(db.select(Post).where(
+            Post.id == id)).scalar()
+    return render_template("post.html", post = post)
+
+@app.route("/delete/post/<int:id>", methods=['GET','POST'])
+def delete_post(id):
+    db.session.execute(db.delete(Post).where(Post.id == id))
+    db.session.commit()
+    flash("Post deleted")
+    return redirect(url_for('homepage'))
