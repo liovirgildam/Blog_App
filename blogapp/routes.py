@@ -156,8 +156,30 @@ def singlepost(id):
     return render_template("post.html", post = post)
 
 @app.route("/delete/post/<int:id>", methods=['GET','POST'])
-def delete_post(id):
+def delete_post(id): 
     db.session.execute(db.delete(Post).where(Post.id == id))
     db.session.commit()
     flash("Post deleted")
     return redirect(url_for('homepage'))
+
+@app.route("/post/updateform/<int:id>", methods=['GET', 'POST'])
+def updateform(id):
+    post = db.session.execute(db.select(Post).where(Post.id == id)).scalar()
+    return render_template("updatepost.html", post= post)
+
+@app.route("/update/post/<int:id>", methods = ['GET','POST'])
+def updatepost(id):
+    if request.method == 'POST':
+        if request.form['title'] =='' and request.form['post']== '':
+            return redirect(url_for('singlepost', id = id))
+        elif request.form['title'] == '':
+            db.session.execute(db.update(Post).values(text = request.form["post"]).where(Post.id == id))
+            db.session.commit()
+        elif request.form['post'] == '':
+            db.session.execute(db.update(Post).values(title = request.form["title"]).where(Post.id == id))
+            db.session.commit()
+        else:
+            db.session.execute(db.update(Post).values(title = request.form["title"],text = request.form["post"] ).where(Post.id == id))
+            db.session.commit()
+        return redirect(url_for('singlepost', id = id))
+    return redirect(url_for('updateform', id = id))

@@ -17,12 +17,24 @@
             </div>
         </div>
         {% if post.user_id == session["user_id"] %}
-        <form action="/delete/post/{{post.id}}" method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <div class="mb-3 ">
-                <button type="submit" class="btn btn-danger">Delete</button><br>
-            </div>
-        </form>
+        <ul class="list-inline">
+            <li class="list-inline-item">
+                <form action="/delete/post/{{post.id}}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="mb-3 ">
+                        <button type="submit" class="btn btn-danger">Delete</button><br>
+                    </div>
+                </form>
+            </li>
+            <li class="list-inline-item">
+                <form action="/post/updateform/{{post.id}}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="mb-3 ">
+                        <button type="submit" class="btn btn-success">Update</button><br>
+                    </div>
+                </form>
+            </li>
+        </ul>
         {% endif %}
     </div>
 </div>
