@@ -12,24 +12,20 @@
         <form action="" method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" name="email" id="email" class="form-control" required>
-            </div>
-            <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" name="password" id="password" class="form-control"
+                <input type="password" name="password" id="password" class="form-control" onkeyup='check()'
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="passwordHelp" required>
             </div>
+            <div class="mb-3">
+                <label for="confPassword" class="form-label">Confirm password</label>
+                <input type="password" name="confPassword" id="confPassword" onkeyup='check()'
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" class="form-control" required>
+            </div>
             <div class="mb-3 ">
+                <span id="message"></span>
                 <button type="submit" class="btn btn-primary">Submit</button><br>
-                <small class="text-muted ml-2">
-                    <a href="{{ url_for('reset_request') }}">Forgot Password?</a>
-                </small>
             </div>
             <hr>
-            <div class="mb-3 ">
-                Don't have an account? <a href={{url_for('signup')}}>Sign Up</a>
-            </div>
             {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="flashes alert alert-danger" role="alert">
@@ -41,5 +37,16 @@
             {% endwith %}
         </form>
     </div>
+    <script>
+        const check = () => {
+            if (document.getElementById('password').value ==
+                document.getElementById('confPassword').value) {
+                    document.getElementById('message').innerHTML = '';  
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'Passwords do not match';
+            }
+        }
+    </script>
 {% endif %}
 {% endblock %}

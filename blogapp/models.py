@@ -1,5 +1,6 @@
 from datetime import datetime
-from blogapp import db
+from blogapp import app, db
+from itsdangerous.url_safe import URLSafeSerializer as Serializer
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -10,6 +11,19 @@ class User(db.Model):
     profile_picture = db.Column(db.String, nullable=False, default='default.jpeg')
     summary = db.Column(db.String)
     posts = db.relationship('Post', backref='author', lazy=True)
+
+    def get_reset_token(self):
+        s = Serializer(app.config['SECRET_KEY'])
+        return  s.dumps(self.id)
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)
+        except:
+            return None
+        return User.query.get(user_id)
 
     def __repr__(self):
         return f"User('{self.name}','{self.username}','{self.profile_picture}','{self.summary}')"

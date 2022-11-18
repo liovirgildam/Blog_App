@@ -6,7 +6,7 @@ from flask_wtf.csrf import CSRFProtect
 from os import path
 if path.exists("env.py"):
     import env
-
+from flask_mail import Mail
 
 # create the app
 app = Flask(__name__)
@@ -36,5 +36,12 @@ csrf = CSRFProtect(app)
 
 # initialize the app with the extension
 db.init_app(app)
+
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
+app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')
+mail = Mail(app)
 
 from blogapp import routes

@@ -2,9 +2,9 @@ import os
 from flask import (flash, redirect, render_template, request, session, url_for)
 from PIL import Image
 from werkzeug.utils import secure_filename
-
-from blogapp import app, bcrypt, db
+from blogapp import app, bcrypt, db, mail
 from blogapp.models import User, Post
+from flask_mail import Message
 
 
 def set_session(user_details):
@@ -131,7 +131,49 @@ def update_details():
                 session["username"] = request.form["username"]
         return redirect(url_for('account'))
     return render_template("account.html")
-    
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request', 
+                sender='no.reply.mendonca@gmail.com',
+                recipients = [user.email])
+    msg.body =f'''To reset your password, visit the following link:
+{url_for('reset_token', token = token, _external=True)}
+If you didn't request this, please ignore this email.  
+'''
+    mail.send(msg)
+
+@app.route("/reset_password", methods=['GET','POST'])
+def reset_request():
+    if request.method == 'POST':
+        user =  db.session.execute(db.select(User).where(User.email == request.form["email"])).scalar()
+        send_reset_email(user)
+        flash("An email with instructions have been sent.")      
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', title = 'Reset Password')
+
+@app.route("/reset_password/<token>", methods =['GET', 'POST'])
+def reset_token(token):
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token')
+        return redirect(url_for('reset_request'))
+    if request.method == 'POST':
+        if request.form["password"] != request.form["confPassword"]:
+            flash("Passwords don't match")
+            return redirect(url_for('reset_request'))
+        else:
+            password=bcrypt.generate_password_hash(
+                    request.form["password"]).decode('utf-8')
+            user.password = password
+            db.session.commit()
+            flash('Your password has been updated! You can now login.')
+            return redirect(url_for('login'))
+
+
+    return render_template("reset_token.html", title = 'Reset Password')
+
+
 @app.route("/post", methods=['GET', 'POST'])
 def post():
     if request.method == "POST":
