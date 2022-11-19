@@ -14,13 +14,15 @@ class User(db.Model):
 
     def get_reset_token(self):
         s = Serializer(app.config['SECRET_KEY'])
-        return  s.dumps(self.id)
+        return  s.dumps({ "user_id": self.id},  salt=app.config['SECURITY_PASSWORD_SALT'])
 
     @staticmethod
-    def verify_reset_token(token):
+    def verify_reset_token(token, expiration=3600):
         s = Serializer(app.config['SECRET_KEY'])
         try:
-            user_id = s.loads(token)
+            user_id = s.loads(token, 
+            salt=app.config['SECURITY_PASSWORD_SALT'],
+            max_age=expiration)["user_id"]
         except:
             return None
         return User.query.get(user_id)
