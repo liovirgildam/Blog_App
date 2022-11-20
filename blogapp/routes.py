@@ -70,7 +70,7 @@ def signup():
                     db.session.commit()
                     set_session(user)
                     return redirect(url_for('homepage'))
-    return render_template("signup.html", title="signup")
+    return render_template("sign_up.html", title="signup")
 
 
 @app.route("/logout")
@@ -186,7 +186,7 @@ def post():
 
 @app.route("/newpost")
 def newpost():
-    return render_template("newpost.html", title="New post")
+    return render_template("new_post.html", title="New post")
 
 @app.route("/post/<int:id>")
 def singlepost(id):
@@ -204,7 +204,7 @@ def delete_post(id):
 @app.route("/post/updateform/<int:id>", methods=['GET', 'POST'])
 def updateform(id):
     post = db.session.execute(db.select(Post).where(Post.id == id)).scalar()
-    return render_template("updatepost.html", post= post)
+    return render_template("update_post.html", post= post)
 
 @app.route("/update/post/<int:id>", methods = ['GET','POST'])
 def updatepost(id):
