@@ -22,10 +22,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
 # app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 
 # only accepts jpg and png file extensions
-app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png']
+app.config["UPLOAD_EXTENSIONS"] = [".jpg", ".png"]
 
 # upload pictures
-app.config['UPLOAD_PATH'] = 'blogapp/static/uploads'
+app.config["UPLOAD_PATH"] = "blogapp/static/uploads"
 
 # create the extension
 db = SQLAlchemy(app)
@@ -37,12 +37,12 @@ csrf = CSRFProtect(app)
 # initialize the app with the extension
 db.init_app(app)
 
-app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
-app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')
-app.config['SECURITY_PASSWORD_SALT'] = os.environ.get('SECURITY_PASSWORD_SALT')
+app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+app.config["MAIL_PORT"] = 587
+app.config["MAIL_USE_TLS"] = True
+app.config["MAIL_USERNAME"] = os.environ.get("EMAIL_USER")
+app.config["MAIL_PASSWORD"] = os.environ.get("EMAIL_PASS")
+app.config["SECURITY_PASSWORD_SALT"] = os.environ.get("SECURITY_PASSWORD_SALT")
 mail = Mail(app)
 
 from blogapp import routes

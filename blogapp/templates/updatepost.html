@@ -6,11 +6,11 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" name="title" id="title" class="form-control"  placeholder="{{post.title}}">
+                <input type="text" name="title" id="title" class="form-control" value="{{post.title}}">
             </div>
             <div class="mb-3">
                 <label for="post" class="form-label">Post</label>
-                <textarea name="post" id="post" class="form-control" rows="4" cols="50" placeholder="{{post.text}} "></textarea>
+                <textarea name="post" id="post" class="form-control" rows="4" cols="50">{{post.text}}</textarea>
             </div>
             <div class="mb-3 ">
                 <button type="submit" class="btn btn-primary">Submit</button><br>

@@ -13,12 +13,12 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" name="password" id="password" class="form-control" onkeyup='check()'
+                <input type="password" name="password" id="password" class="form-control" onkeyup="check()"
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="passwordHelp" required>
             </div>
             <div class="mb-3">
                 <label for="confPassword" class="form-label">Confirm password</label>
-                <input type="password" name="confPassword" id="confPassword" onkeyup='check()'
+                <input type="password" name="confPassword" id="confPassword" onkeyup="check()"
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" class="form-control" required>
             </div>
             <div class="mb-3 ">
@@ -39,12 +39,12 @@
     </div>
     <script>
         const check = () => {
-            if (document.getElementById('password').value ==
-                document.getElementById('confPassword').value) {
-                    document.getElementById('message').innerHTML = '';  
+            if (document.getElementById("password").value ==
+                document.getElementById("confPassword").value) {
+                    document.getElementById("message").innerHTML = "";  
             } else {
-                document.getElementById('message').style.color = 'red';
-                document.getElementById('message').innerHTML = 'Passwords do not match';
+                document.getElementById("message").style.color = "red";
+                document.getElementById("message").innerHTML = "Passwords do not match";
             }
         }
     </script>

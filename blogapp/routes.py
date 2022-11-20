@@ -6,7 +6,6 @@ from blogapp import app, bcrypt, db, mail
 from blogapp.models import User, Post
 from flask_mail import Message
 
-
 def set_session(user_details):
     session["user_id"] = user_details.id
     session["name"] = user_details.name  
@@ -169,8 +168,6 @@ def reset_token(token):
             db.session.commit()
             flash('Your password has been updated! You can now login.')
             return redirect(url_for('login'))
-
-
     return render_template("reset_token.html", title = 'Reset Password')
 
 
@@ -216,12 +213,11 @@ def updatepost(id):
             return redirect(url_for('singlepost', id = id))
         elif request.form['title'] == '':
             db.session.execute(db.update(Post).values(text = request.form["post"]).where(Post.id == id))
-            db.session.commit()
         elif request.form['post'] == '':
             db.session.execute(db.update(Post).values(title = request.form["title"]).where(Post.id == id))
-            db.session.commit()
         else:
             db.session.execute(db.update(Post).values(title = request.form["title"],text = request.form["post"] ).where(Post.id == id))
-            db.session.commit()
+        db.session.commit()  
         return redirect(url_for('singlepost', id = id))
     return redirect(url_for('updateform', id = id))
+

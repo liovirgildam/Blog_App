@@ -22,7 +22,7 @@
                 <form action="/delete/post/{{post.id}}" method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <div class="mb-3 ">
-                        <button type="submit" class="btn btn-danger">Delete</button><br>
+                        <button type="submit" class="btn btn-danger">Delete</button>
                     </div>
                 </form>
             </li>
@@ -30,7 +30,7 @@
                 <form action="/post/updateform/{{post.id}}" method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <div class="mb-3 ">
-                        <button type="submit" class="btn btn-success">Update</button><br>
+                        <button type="submit" class="btn btn-success">Update</button>
                     </div>
                 </form>
             </li>

@@ -8,20 +8,20 @@ class User(db.Model):
     username = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String(40), nullable=False)
-    profile_picture = db.Column(db.String, nullable=False, default='default.jpeg')
+    profile_picture = db.Column(db.String, nullable=False, default="default.jpeg")
     summary = db.Column(db.String)
-    posts = db.relationship('Post', backref='author', lazy=True)
+    posts = db.relationship("Post", backref="author", lazy=True)
 
     def get_reset_token(self):
-        s = Serializer(app.config['SECRET_KEY'])
-        return  s.dumps({ "user_id": self.id},  salt=app.config['SECURITY_PASSWORD_SALT'])
+        s = Serializer(app.config["SECRET_KEY"])
+        return  s.dumps({ "user_id": self.id},  salt=app.config["SECURITY_PASSWORD_SALT"])
 
     @staticmethod
     def verify_reset_token(token, expiration=3600):
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(app.config["SECRET_KEY"])
         try:
             user_id = s.loads(token, 
-            salt=app.config['SECURITY_PASSWORD_SALT'],
+            salt=app.config["SECURITY_PASSWORD_SALT"],
             max_age=expiration)["user_id"]
         except:
             return None
@@ -35,7 +35,7 @@ class Post(db.Model):
     title = db.Column(db.String(100), nullable=False)
     postedOn = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     text = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.postedOn}')"
