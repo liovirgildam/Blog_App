@@ -5,7 +5,7 @@
         <h2 class="p-4">Edit Profile</h2>
         <hr>
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6 ml-2">
                 <!-- Form to update profile picture in account's page -->
                 <form method="POST" action="/upload_file" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
@@ -14,7 +14,8 @@
                         <img class="account_picture" src="../static/uploads/{{session['profile_picture']}}" alt="Profile Picture">
                     </div>
                     <div class="mb-3">
-                        <input name="profile_picture" type="file" accept="image/png, image/jpeg" required>
+                        <label for="files">Select picture</label>
+                        <input name="profile_picture" type="file" accept="image/png, image/jpeg" id="files" style="display:none;" required>
                     </div>
                     <div class="mb-3">
                         <span id="message"></span>

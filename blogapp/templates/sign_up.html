@@ -43,7 +43,7 @@
             <hr>
             <div class="mb-3 ">
                 Already have an account?
-                <a href="{{url_for('login')}}">Login</a>
+                <a class="remove_underline" href="{{url_for('login')}}">Login</a>
             </div>
             {% with messages = get_flashed_messages() %}
             {% if messages %}
