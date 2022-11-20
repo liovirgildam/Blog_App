@@ -9,9 +9,12 @@
         </div>
     {% endif %}
 {% endwith %}
+
+<!-- Shows all posts in database -->
 {% if posts %}
     {% for post in posts %}
     <div class="container posts">
+        <!-- Bootstrap Grid system to make website responsive -->
         <div class="row">
             <div class="col-3 col-md-2">
                 <img class="picture_post" src="../static/uploads/{{post.author.profile_picture}}" alt="Profile Picture">

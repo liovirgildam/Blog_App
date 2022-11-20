@@ -6,8 +6,10 @@
         <hr>
         <div class="row">
             <div class="col-sm-6">
+                <!-- Form to update profile picture in account's page -->
                 <form method="POST" action="/upload_file" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <!-- Bootstrap margin left and right (my-3) -->
                     <div class="my-3">
                         <img class="account_picture" src="../static/uploads/{{session['profile_picture']}}" alt="Profile Picture">
                     </div>
@@ -21,6 +23,7 @@
                 </form>
             </div>
             <div class="col-sm-6 py-5">
+                <!-- Form to update name and username -->
                 <form action="/update" method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <div class="mb-3">
@@ -49,6 +52,8 @@
     </div>
 
     {% else %}
-        <div class="text-center m-3 alert alert-danger" role="alert">Please <a href="/login"> <strong> login</strong> </a>or <a href="/signup"> <strong>sign up</strong> </a> first.</div>
+        <div class="text-center m-3 alert alert-danger" role="alert">
+            Please <a href="/login"> <strong> login</strong> </a> or <a href="/signup"> <strong>sign up</strong> </a> first.
+        </div>
     {% endif %}
 {% endblock %}

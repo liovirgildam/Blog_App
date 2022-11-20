@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% block content %}
+<!-- Doesn't allow user to reset password if has already logged in  -->
 {% if session["username"] %} 
      <div class="text-center m-3 alert alert-danger" role="alert">
         You are already logged in.
@@ -38,6 +39,7 @@
         </form>
     </div>
     <script>
+        // checks if password and confirm password are the same
         const check = () => {
             if (document.getElementById("password").value ==
                 document.getElementById("confPassword").value) {

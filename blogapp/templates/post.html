@@ -16,6 +16,7 @@
                 <p class="post-content">{{ post.text }}</p>
             </div>
         </div>
+        <!-- Only allows the post owner to make an update or delete post -->
         {% if post.user_id == session["user_id"] %}
         <ul class="list-inline">
             <li class="list-inline-item">
