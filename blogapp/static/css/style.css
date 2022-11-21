@@ -90,10 +90,12 @@ a.list-group-item.list-group-item-action:hover{
 }
 
 @media only screen and (min-width: 768px) {
-    .signup, .login, .homepage, .posts{
+  .signup, .login, .homepage, .posts{
       padding: 25px;
-
     }  
+  }
+  .signup, .login{
+    width: 50%;
   }
 
   @media only screen and (min-width: 992px){

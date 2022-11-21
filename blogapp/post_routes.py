@@ -58,3 +58,7 @@ def update_post(id):
         return redirect(url_for("single_post", id = id))
     return redirect(url_for("update_form", id = id))
 
+# 404 error page
+@app.route("/errorpage")
+def error_page():
+    return render_template("404.html")
