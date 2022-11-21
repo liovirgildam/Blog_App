@@ -1,4 +1,4 @@
-# Blog App
+# Logged
 
 
 Check if passowrds match or not with Javascript
