@@ -28,7 +28,7 @@
                 </form>
             </li>
             <li class="list-inline-item">
-                <form action="/post/updateform/{{post.id}}" method="POST">
+                <form action="/updateform/post/{{post.id}}" method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <div class="mb-3 ">
                         <button type="submit" class="btn btn-success">Update</button>

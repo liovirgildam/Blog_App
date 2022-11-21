@@ -45,4 +45,4 @@ app.config["MAIL_PASSWORD"] = os.environ.get("EMAIL_PASS")
 app.config["SECURITY_PASSWORD_SALT"] = os.environ.get("SECURITY_PASSWORD_SALT")
 mail = Mail(app)
 
-from blogapp import routes
+from blogapp import user_routes, post_routes
