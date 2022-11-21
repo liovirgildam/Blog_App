@@ -39,14 +39,14 @@
                         <button type="submit" class="btn btn-primary">Update</button><br>
                     </div>
                 </form>
-                {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <div class="flashes alert alert-danger" role="alert">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                    </div>
-                {% endif %}
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="flashes alert alert-{{ category }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                 {% endwith %}
             </div>
         </div>

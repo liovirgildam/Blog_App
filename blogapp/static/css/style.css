@@ -63,6 +63,10 @@ body{
     width: 40px;
     height: 40px;
   }
+  .account_picture{
+    width: 80px;
+    height: 80px;
+  }
 }
 
 @media only screen and (min-width: 768px) {
@@ -70,13 +74,13 @@ body{
       width: 50%;
       padding: 25px;
 
-    }
-    
+    }  
   }
 
   @media only screen and (min-width: 992px){
-    .picture_post{
+    .picture_post {
       width: 80px;
       height: 80px;
     }
+    
   }

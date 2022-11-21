@@ -31,14 +31,14 @@
             <div class="mb-3 ">
                 Don't have an account? <a class="remove_underline" href="{{url_for('signup')}}">Sign Up</a>
             </div>
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="flashes alert alert-danger" role="alert">
-                {% for message in messages %}
-                    {{ message }}
-                {% endfor %}
-                </div>
-            {% endif %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flashes alert alert-{{ category }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
             {% endwith %}
         </form>
     </div>

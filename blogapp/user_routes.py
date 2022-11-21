@@ -14,10 +14,10 @@ def set_session(user_details):
     return None
 
 def remove_session():
-    session.pop('user_id', None)
-    session.pop('name', None)
-    session.pop('username', None)
-    session.pop('profile_picture', None)
+    session.pop("user_id", None)
+    session.pop("name", None)
+    session.pop("username", None)
+    session.pop("profile_picture", None)
     return None
 
 def thumbnail_profile_picture(profile_pic):
@@ -35,11 +35,11 @@ def save_picture(profile_pic, filename):
 
 def send_reset_email(user):
     token = user.get_reset_token()
-    msg = Message('Password Reset Request', 
-                sender='no.reply.mendonca@gmail.com',
+    msg = Message("Password Reset Request", 
+                sender="no.reply.mendonca@gmail.com",
                 recipients = [user.email])
     msg.body =f'''To reset your password, visit the following link:
-{url_for('reset_token', token = token, _external=True)}
+{url_for("reset_token", token = token, _external=True)}
 If you don't receive this email in one minute, please check spam folder.
 If you didn't request this, please ignore this email.  
 '''
@@ -53,7 +53,7 @@ def homepage():
     posts = db.session.execute(db.select(Post).order_by(Post.postedOn.desc())).scalars()
     return render_template("homepage.html", title="Blog Homepage", posts = posts)
 
-@app.route("/login", methods=['GET', 'POST'])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
 
@@ -72,28 +72,28 @@ def login():
                 
                 # Adds user details to session
                 set_session(user)
-                return  redirect(url_for('homepage'))
-        flash("Email or password invalid, please try again.")
+                return  redirect(url_for("homepage"))
+        flash("Email or password invalid, please try again.", "danger")
     return render_template("login.html", title="login")
 
-@app.route("/signup", methods=['GET', 'POST'])
+@app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
         if request.form["password"] != request.form["confPassword"]:
-            flash("Passwords don't match")
+            flash("Passwords don't match", "danger")
         else:
             # Checks if username already taken
             usernameExist = db.session.execute(db.select(User).where(
                 User.username == request.form["username"].lower())).scalar()
             if usernameExist:
-                flash("Username not available")
+                flash("Username not available","danger")
             else:
 
                 # Checks if user has already an account with that email
                 emailExist = db.session.execute(db.select(User).where(
                     User.email == request.form["email"])).scalar()
                 if emailExist:
-                    flash("Email already exists")
+                    flash("Email already exists", "danger")
                 else:
 
                     # Creates a new user account
@@ -102,12 +102,12 @@ def signup():
                         username=request.form["username"].lower(),
                         email=request.form["email"],
                         password=bcrypt.generate_password_hash(
-                            request.form["password"]).decode('utf-8')
+                            request.form["password"]).decode("utf-8")
                     )
                     db.session.add(user)
                     db.session.commit()
                     set_session(user)
-                    return redirect(url_for('homepage'))
+                    return redirect(url_for("homepage"))
     return render_template("sign_up.html", title="signup")
 
 # route to posts by specific user
@@ -121,7 +121,7 @@ def user_posts(id):
 @app.route("/logout")
 def logout():
     remove_session()
-    return redirect(url_for('homepage'))
+    return redirect(url_for("homepage"))
 
 # Renders account page
 @app.route("/account")
@@ -129,15 +129,15 @@ def account():
     return render_template("account.html")
 
 # Allows user to upload a profile picture 
-@app.route("/upload_file", methods=['GET', 'POST'])
+@app.route("/upload_file", methods=["GET", "POST"])
 def upload_file():
     if request.method == "POST":
-        profile_pic = request.files['profile_picture']
+        profile_pic = request.files["profile_picture"]
         # Returns a secure filename
         filename = secure_filename(profile_pic.filename)
-        if filename == '': 
-            flash('Please upload a picture with a valid name')
-            return redirect(url_for('account'))
+        if filename == "": 
+            flash("Please upload a picture with a valid name","warning")
+            return redirect(url_for("account"))
 
         # Removes previous profile picture from folder
         if session["profile_picture"] != "default.jpeg":
@@ -157,13 +157,13 @@ def upload_file():
     return render_template("account.html")
     
 # Updates user details in the database
-@app.route("/update", methods=['GET','POST'])
+@app.route("/update", methods=["GET","POST"])
 def update_details():
     if request.method == "POST":
         # If user doesn't update name or username, it flashes an error message
         if request.form["name"] == "" and request.form["username"] == "":
-            flash("Please provide name/username")
-            return redirect(url_for('account'))
+            flash("Please provide name/username", "danger")
+            return redirect(url_for("account"))
         
         # updates the name
         elif request.form["username"] == "":
@@ -175,7 +175,7 @@ def update_details():
             usernameExist = db.session.execute(db.select(User).where(
                 User.username == request.form["username"].lower())).scalar()
             if usernameExist:
-                flash("Username not available")
+                flash("Username not available","danger")
             else:
                 db.session.execute(db.update(User).values(username = request.form["username"].lower()).where(
                     User.id == session["user_id"]))
@@ -190,44 +190,44 @@ def update_details():
 
         # Adds changes to databse and redirects to account page
         db.session.commit()
-        return redirect(url_for('account'))   
+        return redirect(url_for("account"))   
     return render_template("account.html")
 
 # route to reset password email form
-@app.route("/reset_password", methods=['GET','POST'])
+@app.route("/reset_password", methods=["GET", "POST"])
 def reset_request():
-    if request.method == 'POST':
+    if request.method == "POST":
         user =  db.session.execute(db.select(User).where(User.email == request.form["email"])).scalar()
         if user:
             send_reset_email(user)
-            flash("An email with instructions have been sent.")      
-            return redirect(url_for('login'))
+            flash("An email with instructions have been sent.","success")      
+            return redirect(url_for("login"))
         # flashes an error if there isn't an user with that account
-        flash("Invalid email")
-    return render_template('reset_request.html', title = 'Reset Password')
+        flash("Invalid email","danger")
+    return render_template("reset_request.html", title = "Reset Password")
 
 # route to reset password from email
-@app.route("/reset_password/<token>", methods =['GET', 'POST'])
+@app.route("/reset_password/<token>", methods =["GET", "POST"])
 def reset_token(token):
     # verify_reset_token checks if the token is valid and returns an user if it is
     user = User.verify_reset_token(token)
     if user is None:
-        flash('That is an invalid or expired token')
-        return redirect(url_for('reset_request'))
+        flash("That is an invalid or expired token","danger")
+        return redirect(url_for("reset_request"))
     
-    if request.method == 'POST':
+    if request.method == "POST":
         # it flashes an error if passwords don't match
         if request.form["password"] != request.form["confPassword"]:
-            flash("Passwords don't match")
-            return redirect(url_for('reset_request'))
+            flash("Passwords don't match","danger")
+            return redirect(url_for("reset_request"))
         else:
             # Encrypts password and saves it to database
             password=bcrypt.generate_password_hash(
-                    request.form["password"]).decode('utf-8')
+                    request.form["password"]).decode("utf-8")
             user.password = password
             db.session.commit()
-            flash('Your password has been updated! You can now login.')
-            return redirect(url_for('login'))
-    return render_template("reset_token.html", title = 'Reset Password')
+            flash("Your password has been updated! You can now login.","success")
+            return redirect(url_for("login"))
+    return render_template("reset_token.html", title = "Reset Password")
 
 
