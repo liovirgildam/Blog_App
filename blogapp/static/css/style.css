@@ -22,7 +22,7 @@ body{
     background-color: #ffffff;
 }
 
-/* Posts  */
+/* Posts */
 
 .picture_post{
   width:50px;
@@ -72,6 +72,7 @@ body{
 }
 
 /* Media-queries */
+
 @media only screen and (max-width: 280px){
   .picture_post{
     width: 40px;
