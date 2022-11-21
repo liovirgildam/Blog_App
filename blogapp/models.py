@@ -12,10 +12,12 @@ class User(db.Model):
     summary = db.Column(db.String)
     posts = db.relationship("Post", backref="author", lazy=True)
 
+    # Creates a token that is send to the user's email to reset its password
     def get_reset_token(self):
         s = Serializer(app.config["SECRET_KEY"])
         return  s.dumps({ "user_id": self.id},  salt=app.config["SECURITY_PASSWORD_SALT"])
 
+    # Checks if token is valid or not, returns user details if valid
     @staticmethod
     def verify_reset_token(token, expiration=3600):
         s = Serializer(app.config["SECRET_KEY"])
