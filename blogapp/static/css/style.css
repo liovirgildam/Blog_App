@@ -31,6 +31,7 @@ body{
 }
 .posts{
   margin: 20px auto;
+  width: 100%;
 }
 
 .post-author{
@@ -71,6 +72,10 @@ body{
   text-decoration: none;
 }
 
+a.list-group-item.list-group-item-action:hover{
+  color: #0D6EFD;
+}
+
 /* Media-queries */
 
 @media only screen and (max-width: 280px){
@@ -86,7 +91,6 @@ body{
 
 @media only screen and (min-width: 768px) {
     .signup, .login, .homepage, .posts{
-      width: 50%;
       padding: 25px;
 
     }  

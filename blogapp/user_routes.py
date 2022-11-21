@@ -1,57 +1,22 @@
 import os
+from os import path
+if path.exists("env.py"):
+    import env
 from flask import (flash, redirect, render_template, request, session, url_for)
 from PIL import Image
 from werkzeug.utils import secure_filename
 from blogapp import app, bcrypt, db, mail
 from blogapp.models import User, Post
 from flask_mail import Message
-
-def set_session(user_details):
-    session["user_id"] = user_details.id
-    session["name"] = user_details.name  
-    session["username"] = user_details.username
-    session["profile_picture"] = user_details.profile_picture
-    return None
-
-def remove_session():
-    session.pop("user_id", None)
-    session.pop("name", None)
-    session.pop("username", None)
-    session.pop("profile_picture", None)
-    return None
-
-def thumbnail_profile_picture(profile_pic):
-    output_size = (200, 200)
-    profile = Image.open(profile_pic)
-    profile.thumbnail(output_size)
-    return profile
-
-def save_picture(profile_pic, filename):
-    file_ext = os.path.splitext(filename)[1]
-    new_filename = str(session["user_id"])+ file_ext
-    picture = thumbnail_profile_picture(profile_pic)
-    picture.save(os.path.join(app.config["UPLOAD_PATH"], new_filename))
-    return new_filename
-
-def send_reset_email(user):
-    token = user.get_reset_token()
-    msg = Message("Password Reset Request", 
-                sender="no.reply.mendonca@gmail.com",
-                recipients = [user.email])
-    msg.body =f'''To reset your password, visit the following link:
-{url_for("reset_token", token = token, _external=True)}
-If you don't receive this email in one minute, please check spam folder.
-If you didn't request this, please ignore this email.  
-'''
-    mail.send(msg)
-
-# App routes
+from blogapp.routes_methods import (set_session, remove_session, save_picture, send_reset_email, news_api)
+import requests
 
 # Homepage route
 @app.route("/")
 def homepage():
+    news = news_api()
     posts = db.session.execute(db.select(Post).order_by(Post.postedOn.desc())).scalars()
-    return render_template("homepage.html", title="Blog Homepage", posts = posts)
+    return render_template("homepage.html", title="Blog Homepage", posts = posts, news = news)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -115,7 +80,8 @@ def signup():
 def user_posts(id):
     posts = db.session.execute(db.select(Post).where(
             Post.user_id == id).order_by(Post.postedOn.desc())).scalars()
-    return render_template("posts.html", title="Blog Homepage", posts = posts)
+    news = news_api()
+    return render_template("posts.html", title="Blog Homepage", posts = posts, news = news)
 
 # Removes user details from session
 @app.route("/logout")
