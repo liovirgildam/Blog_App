@@ -1,14 +1,8 @@
 body{
   background-color: #fafcfd;
 }
-.signup, .login, .account, .homepage, .posts{
-    margin: 50px auto;
-    width: 70%;
-    padding: 20px;
-    border: 1px solid #ced4da;
-    border-radius: 10px;
-    background-color: #ffffff;
-}
+/* Navbar */
+
 .navbar-brand{
   font-family: "Rubik Distressed", cursive;
   font-size: 20px;
@@ -17,17 +11,39 @@ body{
 .bg-layout{
   background-color: #000;
 }
-.footer-items, .footer-items a, a.nav-link{
-  color: #f2f2f2;
-  text-decoration: none;
-}
-.footer-items a:hover, a.nav-link:hover{
-  color: rgba(255, 255, 255, 0.55);
+
+/* Style to Forms */
+.signup, .login, .account, .homepage, .posts{
+    margin: 50px auto;
+    width: 70%;
+    padding: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 10px;
+    background-color: #ffffff;
 }
 
+/* Posts  */
+
+.picture_post{
+  width:50px;
+  height:50px;
+  border-radius: 50%;
+}
 .posts{
   margin: 20px auto;
 }
+
+.post-author{
+  font-size: 1.2em;
+  padding-right: 10px;
+  text-decoration: none;
+}
+.post-title{
+  text-decoration: none;
+  color: #000;
+}
+
+/* Account page */
 
 .account{
   width: 50%;
@@ -39,20 +55,18 @@ body{
     border-radius: 50%;
 }
 
-.picture_post{
-  width:50px;
-  height:50px;
-  border-radius: 50%;
-}
-.post-author{
-  font-size: 1.2em;
-  padding-right: 10px;
+/* Footer */
+
+.footer-items, .footer-items a, a.nav-link{
+  color: #f2f2f2;
   text-decoration: none;
 }
-.post-title{
-  text-decoration: none;
-  color: #000;
+.footer-items a:hover, a.nav-link:hover{
+  color: rgba(255, 255, 255, 0.55);
 }
+
+/* Anchor tags */
+
 .remove_underline{
   text-decoration: none;
 }
