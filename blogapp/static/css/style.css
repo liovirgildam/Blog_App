@@ -24,7 +24,7 @@ body{
 
 /* Posts */
 
-.picture_post{
+.picture-post{
   width:50px;
   height:50px;
   border-radius: 50%;
@@ -50,7 +50,7 @@ body{
   width: 50%;
 }
 
-.account_picture{
+.account-picture{
     width: 125px;
     height: 125px;
     border-radius: 50%;
@@ -68,7 +68,7 @@ body{
 
 /* Anchor tags */
 
-.remove_underline{
+.remove-underline{
   text-decoration: none;
 }
 
@@ -79,11 +79,11 @@ a.list-group-item.list-group-item-action:hover{
 /* Media-queries */
 
 @media only screen and (max-width: 280px){
-  .picture_post{
+  .picture-post{
     width: 40px;
     height: 40px;
   }
-  .account_picture{
+  .account-picture{
     width: 80px;
     height: 80px;
   }
@@ -99,7 +99,7 @@ a.list-group-item.list-group-item-action:hover{
   }
 
   @media only screen and (min-width: 992px){
-    .picture_post {
+    .picture-post {
       width: 80px;
       height: 80px;
     }

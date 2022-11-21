@@ -24,12 +24,12 @@
             <div class="mb-3 ">
                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
                 <small class="text-muted">
-                    <a class="remove_underline" href="{{ url_for('reset_request') }}">Forgot Password?</a>
+                    <a class="remove-underline" href="{{ url_for('reset_request') }}">Forgot Password?</a>
                 </small>
             </div>
             <hr>
             <div class="mb-3 ">
-                Don't have an account? <a class="remove_underline" href="{{url_for('signup')}}">Sign Up</a>
+                Don't have an account? <a class="remove-underline" href="{{url_for('signup')}}">Sign Up</a>
             </div>
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
