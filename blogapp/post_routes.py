@@ -62,3 +62,9 @@ def update_post(id):
 @app.route("/errorpage")
 def error_page():
     return render_template("404.html")
+
+# About page
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
