@@ -93,11 +93,11 @@ a.list-group-item.list-group-item-action:hover{
   .signup, .login, .homepage, .posts{
       padding: 25px;
     }  
-  }
+  
   .signup, .login, .post-page{
     width: 50%;
   }
-
+}
   @media only screen and (min-width: 992px){
     .picture-post {
       width: 80px;
