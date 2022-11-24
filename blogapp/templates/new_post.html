@@ -2,7 +2,7 @@
 {% block content %}
 <!-- Form to create a new post -->
 <div class="container homepage my-5">
-    <div class="post-form">
+    <div class="post-form post-page">
         <form action="/post" method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="mb-3">

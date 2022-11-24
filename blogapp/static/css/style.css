@@ -13,7 +13,7 @@ body{
 }
 
 /* Style to Forms */
-.signup, .login, .account, .homepage, .posts{
+.signup, .login, .account, .homepage, .posts, .post-page{
     margin: 50px auto;
     width: 70%;
     padding: 20px;
@@ -94,7 +94,7 @@ a.list-group-item.list-group-item-action:hover{
       padding: 25px;
     }  
   }
-  .signup, .login{
+  .signup, .login, .post-page{
     width: 50%;
   }
 
